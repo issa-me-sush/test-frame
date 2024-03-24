@@ -29,7 +29,7 @@ async function collectImageUri(req: NextRequest): Promise<NextResponse> {
       aspectRatio: '1:1',
     },
     input: {
-      text: "eth-amount", // Pass the concatenated data for the next step
+      text: "image-uri", // Pass the concatenated data for the next step
     },
     postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
     state: {

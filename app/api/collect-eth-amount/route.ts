@@ -5,7 +5,8 @@ import { NEXT_PUBLIC_URL } from '../../config';
 async function collectEthAmount(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
-  const state = JSON.parse(message?.state.serialized || "");
+  // const state = JSON.parse(message?.state.serialized || "");
+  console.log(message?.state.serialized)
   if (!isValid) {
     return new NextResponse('Message not valid', { status: 400 });
   }
@@ -32,7 +33,7 @@ async function collectEthAmount(req: NextRequest): Promise<NextResponse> {
     },
     postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
     state:{
-      adName: state?.adName,
+      // adName: state?.adName,
       ethAmount: ethAmt
     }
   }));
