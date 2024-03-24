@@ -26,42 +26,43 @@ async function deployToken(req: NextRequest): Promise<NextResponse> {
   }
 
   // Use Mint Club SDK to deploy the token
-  const Token = mintclub.network('sepolia').token(adName);
+//   const Token = mintclub.network('sepolia').token(adName);
 
   // Deploy the token
-  const result = await Token.create({
-    name: adName,
-    reserveToken: {
-      address: '0x4200000000000000000000000000000000000006',
-      decimals: 18,
-    },
-    curveData: {
-      curveType: 'EXPONENTIAL',
-      stepCount: 10,
-      maxSupply: 10_000,
-      initialMintingPrice: 0.2,
-      finalMintingPrice: 0.3,
-      creatorAllocation: 100,
-    },
-  });
-console.log(result)
+//   const result = await Token.create({
+//     name: adName,
+//     reserveToken: {
+//       address: '0x4200000000000000000000000000000000000006',
+//       decimals: 18,
+//     },
+//     curveData: {
+//       curveType: 'EXPONENTIAL',
+//       stepCount: 10,
+//       maxSupply: 10_000,
+//       initialMintingPrice: 0.2,
+//       finalMintingPrice: 0.3,
+//       creatorAllocation: 100,
+//     },
+//   });
+// console.log(result)
   // Check the result and proceed
   let tokenAddress ="0x"
+  const result =  true
   if (result) {
-   tokenAddress = await mintclub.network('sepolia').token(adName).getTokenAddress();
-    console.log(tokenAddress)
-    const etherscanLink = `https://sepolia.etherscan.io/token/${tokenAddress}`;
-    console.log(etherscanLink)
+//    tokenAddress = await mintclub.network('sepolia').token(adName).getTokenAddress();
+    // console.log(tokenAddress)
+    // const etherscanLink = `https://sepolia.etherscan.io/token/${tokenAddress}`;
+    // console.log(etherscanLink)
     // Token deployed successfully, encode all data including the token address for the next step
-    const encodedData = encodeURIComponent(`adName=${adName}&imageUri=${imageUri}&ethAmount=${ethAmount}&preMintAdAmount=${preMintAdAmount}&tokenAddress=${tokenAddress}`);
+   
 
     return new NextResponse(getFrameHtmlResponse({
         buttons: [
-            {
-              label: 'View Token on Etherscan',
-              action: 'link',
-              target: etherscanLink,
-            },
+            // {
+            //   label: 'View Token on Etherscan',
+            //   action: 'link',
+            //   target: etherscanLink,
+            // },
             {
               label: 'Proceed to Create Ad',
               action: 'tx',
@@ -73,15 +74,15 @@ console.log(result)
         src: `${NEXT_PUBLIC_URL}/park-2.png`,
         aspectRatio: '1:1',
       },
-    //   input: {
-    //     text: "", 
-    //   },
+      input: {
+        text: "mint club token Address", 
+      },
     state:{
         adName: JSON.parse(decodeURIComponent(message?.state.serialized || "")).adName,
         imageUri: JSON.parse(decodeURIComponent(message?.state.serialized || "")).imageUri,
         ethAmount: ethAmount,
         preAmount: preMintAdAmount,
-        tokenAddress: tokenAddress,
+      
       },
       postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
     }));

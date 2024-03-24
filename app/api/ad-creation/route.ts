@@ -21,7 +21,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   const imageUri = state.imageUri;
   const ethAmount = state.ethAmount;
   const preMintAdAmount = state.input;
-  const tokenAddress = state.tokenAddress
+  const tokenAddress = message.input
 
   // Encode the function call to the createAd function of your contract
   const data = encodeFunctionData({
