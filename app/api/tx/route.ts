@@ -18,13 +18,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   const data = encodeFunctionData({
     abi: AdContractABI,
     functionName: 'createAd',
-    // @ts-ignore 
-    args: [ "ad name", "0x56923048bf8A5f9C5d96Be2182D57F207895eCEd" , parseEther( "0.001"), parseInt( "0.002"), `https://test-frame-two.vercel.app/park-3.png`],
+    args: [ "ad name", "0x56923048bf8A5f9C5d96Be2182D57F207895eCEd" , parseEther( "0.001"), parseEther( "0.002"), `https://test-frame-two.vercel.app/park-3.png`],
   });
 
 
   const txData: FrameTransactionResponse = {
-    chainId: `eip155:${sepolia.id}`, // Adjust according to your network
+    chainId: `eip155:${sepolia.id}`,
     method: 'eth_sendTransaction',
     params: {
       abi: AdContractABI,
