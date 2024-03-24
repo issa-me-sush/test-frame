@@ -1,4 +1,4 @@
-import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit/frame';
+import { FrameRequest, getFrameMessage, getFrameHtmlResponse ,getFrameMetadata} from '@coinbase/onchainkit/frame';
 import { NextRequest, NextResponse } from 'next/server';
 import { NEXT_PUBLIC_URL } from '../../config';
 
@@ -11,10 +11,10 @@ async function collectImageUri(req: NextRequest): Promise<NextResponse> {
   }
 
   // Assuming the ad name was passed to this step in the input
-  const previousData = encodeURIComponent(message.input); // This contains 'adName'
+  const adname = message.input; 
 
  
-  const newData = `${previousData}&imageUri=`; // Placeholder for user input
+//   const newData = `${previousData}&imageUri=`; // Placeholder for user input
 
   return new NextResponse(getFrameHtmlResponse({
     buttons: [
@@ -29,9 +29,12 @@ async function collectImageUri(req: NextRequest): Promise<NextResponse> {
       aspectRatio: '1:1',
     },
     input: {
-      text: newData, // Pass the concatenated data for the next step
+      text: "eth-amount", // Pass the concatenated data for the next step
     },
     postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
+    state: {
+        adName: adname
+    }
   }));
 }
 

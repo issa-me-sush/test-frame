@@ -37,6 +37,7 @@ const frameMetadata = getFrameMetadata({
     text: 'Enter Ad Name',
   },
   postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
+
 });
 
 

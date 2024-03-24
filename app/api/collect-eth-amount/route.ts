@@ -5,16 +5,15 @@ import { NEXT_PUBLIC_URL } from '../../config';
 async function collectEthAmount(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
-
+  const state = JSON.parse(message?.state.serialized || "");
   if (!isValid) {
     return new NextResponse('Message not valid', { status: 400 });
   }
 
-  // Assuming adName and imageUri were passed to this step in the input
-  const previousData = encodeURIComponent(message.input); // This contains 'adName' and 'imageUri'
+  
+  const ethAmt = message.input; 
 
-  // Append '&ethAmount=' to the existing data for the user to fill in
-  const newData = `${previousData}&ethAmount=`; // Placeholder for user input
+
 
   return new NextResponse(getFrameHtmlResponse({
     buttons: [
@@ -29,9 +28,13 @@ async function collectEthAmount(req: NextRequest): Promise<NextResponse> {
       aspectRatio: '1:1',
     },
     input: {
-      text: newData, // Pass the concatenated data for the next step
+      text: "pre mint amount", // Pass the concatenated data for the next step
     },
     postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
+    state:{
+      adName: state?.adName,
+      ethAmount: ethAmt
+    }
   }));
 }
 
