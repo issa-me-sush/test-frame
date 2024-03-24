@@ -33,6 +33,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       value: "1000000000000000", 
     },
   };
+  console.log(data)
+  console.log(txData)
   return NextResponse.json(txData);
 }
 
