@@ -1,7 +1,7 @@
 import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit/frame';
 import { NextRequest, NextResponse } from 'next/server';
 import { encodeFunctionData, parseEther } from 'viem';
-import { base, sepolia } from 'viem/chains';
+import { base,sepolia  , baseSepolia } from 'viem/chains';
 import AdContractABI from '../../_contracts/AdContractABI';
 import { AD_CONTRACT_ADDR } from '../../config'; // Use your actual contract address
 import type { FrameTransactionResponse } from '@coinbase/onchainkit/frame';
@@ -32,7 +32,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   });
 
   const txData: FrameTransactionResponse = {
-    chainId: `eip155:${base.id}`, // Adjust according to your network
+    chainId: `eip155:${baseSepolia.id}`, // Adjust according to your network
     method: 'eth_sendTransaction',
     params: {
       abi: AdContractABI,
