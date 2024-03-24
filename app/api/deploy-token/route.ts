@@ -7,17 +7,19 @@ import { parseEther } from 'viem';
 async function deployToken(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
+  console.log(JSON.parse(decodeURIComponent(message?.state.serialized || "")))
+  const state = JSON.parse(decodeURIComponent(message?.state.serialized || ""))
 
   if (!isValid) {
     return new NextResponse('Message not valid', { status: 400 });
   }
   const { mintclub } = await import('mint.club-v2-sdk');
   // Parse the concatenated data from message.input
-  const params = new URLSearchParams(decodeURIComponent(message.input));
-  const adName = params.get('adName');
-  const imageUri = params.get('imageUri');
-  const ethAmount = params.get('ethAmount');
-  const preMintAdAmount = params.get('preMintAdAmount');
+
+  const adName =state.adName;
+  const imageUri = state.imageUri;
+  const ethAmount = state.ethAmount;
+  const preMintAdAmount = message.input;
 
   if (!adName || !ethAmount || !preMintAdAmount) {
     return new NextResponse('Required data is missing', { status: 400 });
@@ -42,11 +44,14 @@ async function deployToken(req: NextRequest): Promise<NextResponse> {
       creatorAllocation: 100,
     },
   });
-
+console.log(result)
   // Check the result and proceed
+  let tokenAddress ="0x"
   if (result) {
-    const tokenAddress = await mintclub.network('sepolia').token(adName).getTokenAddress();
+   tokenAddress = await mintclub.network('sepolia').token(adName).getTokenAddress();
+    console.log(tokenAddress)
     const etherscanLink = `https://sepolia.etherscan.io/token/${tokenAddress}`;
+    console.log(etherscanLink)
     // Token deployed successfully, encode all data including the token address for the next step
     const encodedData = encodeURIComponent(`adName=${adName}&imageUri=${imageUri}&ethAmount=${ethAmount}&preMintAdAmount=${preMintAdAmount}&tokenAddress=${tokenAddress}`);
 
@@ -68,8 +73,15 @@ async function deployToken(req: NextRequest): Promise<NextResponse> {
         src: `${NEXT_PUBLIC_URL}/park-2.png`,
         aspectRatio: '1:1',
       },
-      input: {
-        text: encodedData, // Pass all the data as input text for the next step
+    //   input: {
+    //     text: "", 
+    //   },
+    state:{
+        adName: JSON.parse(decodeURIComponent(message?.state.serialized || "")).adName,
+        imageUri: JSON.parse(decodeURIComponent(message?.state.serialized || "")).imageUri,
+        ethAmount: ethAmount,
+        preAmount: preMintAdAmount,
+        tokenAddress: tokenAddress,
       },
       postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
     }));

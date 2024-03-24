@@ -13,14 +13,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   if (!isValid) {
     return new NextResponse('Message not valid', { status: 500 });
   }
-
+  
+  const state = JSON.parse(decodeURIComponent(message?.state.serialized || ""))
+  console.log(state)
   // Decode the input to extract the necessary parameters
-  const params = new URLSearchParams(decodeURIComponent(message.input));
-  const adName = params.get('adName');
-  const imageUri = params.get('imageUri');
-  const ethAmount = params.get('ethAmount');
-  const preMintAdAmount = params.get('preMintAdAmount');
-  const tokenAddress = params.get('tokenAddress'); // Assuming the token address is passed from the previous step
+  const adName =state.adName;
+  const imageUri = state.imageUri;
+  const ethAmount = state.ethAmount;
+  const preMintAdAmount = state.input;
+  const tokenAddress = state.tokenAddress
 
   // Encode the function call to the createAd function of your contract
   const data = encodeFunctionData({
@@ -31,7 +32,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   });
 
   const txData: FrameTransactionResponse = {
-    chainId: `eip155:${sepolia.id}`, // Adjust according to your network
+    chainId: `eip155:${base.id}`, // Adjust according to your network
     method: 'eth_sendTransaction',
     params: {
       abi: AdContractABI,

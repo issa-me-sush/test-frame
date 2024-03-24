@@ -7,12 +7,13 @@ async function collectEthAmount(req: NextRequest): Promise<NextResponse> {
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
   // const state = JSON.parse(message?.state.serialized || "");
   console.log(JSON.parse(decodeURIComponent(message?.state.serialized || "")))
+  const adName = JSON.parse(decodeURIComponent(message?.state.serialized || "")).adName
   if (!isValid) {
     return new NextResponse('Message not valid', { status: 400 });
   }
 
   
-  const ethAmt = message.input; 
+  const uri = message.input; 
 
 
 
@@ -29,12 +30,12 @@ async function collectEthAmount(req: NextRequest): Promise<NextResponse> {
       aspectRatio: '1:1',
     },
     input: {
-      text: "pre mint amount", // Pass the concatenated data for the next step
+      text: "eth amount", // Pass the concatenated data for the next step
     },
     postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
     state:{
-      // adName: state?.adName,
-      ethAmount: ethAmt
+      adName: JSON.parse(decodeURIComponent(message?.state.serialized || "")).adName,
+      imageUri: uri
     }
   }));
 }

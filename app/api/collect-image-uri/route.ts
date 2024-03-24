@@ -5,7 +5,7 @@ import { NEXT_PUBLIC_URL } from '../../config';
 async function collectImageUri(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
-
+  console.log(JSON.parse(decodeURIComponent(message?.state.serialized || "")))
   if (!isValid) {
     return new NextResponse('Message not valid', { status: 400 });
   }
