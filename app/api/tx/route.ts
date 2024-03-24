@@ -18,7 +18,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   const data = encodeFunctionData({
     abi: AdContractABI,
     functionName: 'createAd',
-    args: [ "ad name", "0x56923048bf8A5f9C5d96Be2182D57F207895eCEd" , parseEther( "0.001"), parseEther( "0.002"), `https://test-frame-two.vercel.app/park-3.png`],
+    args: [ "ad name", "0x56923048bf8A5f9C5d96Be2182D57F207895eCEd" , parseEther( "0.0001"), parseEther( "0.0002"), `https://test-frame-two.vercel.app/park-3.png`],
   });
 
 
@@ -30,7 +30,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       data,
       to: AD_CONTRACT_ADDR,
 
-      value: "1000000000000000", 
+      value: "100000000000000", 
     },
   };
   console.log(data)
