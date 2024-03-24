@@ -36,7 +36,7 @@ const frameMetadata = getFrameMetadata({
           },
   ],
   image: {
-    src: `${NEXT_PUBLIC_URL}/park-3.png`, // Placeholder image
+    src: `https://media.discordapp.net/attachments/1220970553448468560/1221314905068666910/ethtaipei.png?ex=66122124&is=65ffac24&hm=25d88f74de6a01e547c4d2b45ff3dc4669385675bd6a0dc67dfa847d9c0f1de0&=&format=webp&quality=lossless&width=1170&height=1170`, // Placeholder image
     aspectRatio: '1:1',
   },
   input: {
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Ad Creation',
     description: 'Enter Ad Name',
-    images: [`${NEXT_PUBLIC_URL}/park-1.png`],
+    images: [`https://media.discordapp.net/attachments/1220970553448468560/1221314905068666910/ethtaipei.png?ex=66122124&is=65ffac24&hm=25d88f74de6a01e547c4d2b45ff3dc4669385675bd6a0dc67dfa847d9c0f1de0&=&format=webp&quality=lossless&width=1170&height=1170`],
   },
   other: {
     ...frameMetadata,

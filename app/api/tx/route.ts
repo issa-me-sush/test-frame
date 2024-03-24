@@ -30,7 +30,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       data,
       to: AD_CONTRACT_ADDR,
 
-      value: parseEther("0.001").toString(), 
+      value: "1000000000000000", 
     },
   };
   return NextResponse.json(txData);
