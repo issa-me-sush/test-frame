@@ -6,7 +6,7 @@ async function collectEthAmount(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
   // const state = JSON.parse(message?.state.serialized || "");
-  console.log(decodeURIComponent(message?.state.serialized || ""))
+  console.log(JSON.parse(decodeURIComponent(message?.state.serialized || "")))
   if (!isValid) {
     return new NextResponse('Message not valid', { status: 400 });
   }
